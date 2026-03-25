@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap');
+
+/* V4 Core Engine */
+@import "tailwindcss";
+
+/* V4 Theme Configuration (Replaces tailwind.config.js) */
+@theme {
+  --color-charcoal: #1A1A1A;
+  --color-charcoal-light: #333333;
+  --color-charcoal-dark: #0A0A0A;
+  --color-yellow: #FFD700;
+  --color-offwhite: #F5F5F5;
+  --font-display: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+}
+
+/* Global Failsafes */
+body {
+  background-color: var(--color-charcoal);
+  color: var(--color-offwhite);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+}
+
+code, pre, .font-mono {
+  font-family: var(--font-mono);
+}
