@@ -127,7 +127,7 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
           </div>
 
           <h1 className="text-6xl md:text-9xl font-black uppercase tracking-tighter text-white leading-none mb-8 italic">
-            1028bc<span className="text-sky-500">.</span>
+            1028bc
           </h1>
 
           <p className="max-w-2xl text-lg md:text-2xl text-white/50 font-medium leading-relaxed mb-12">
