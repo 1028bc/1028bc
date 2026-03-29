@@ -1,4 +1,6 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
+import { useContextKeep } from '../hooks/useContextKeep';
 
 // 1. DEFINE THE TENANTS
 export type BrandID = '1028BC' | 'TECH_GUY';
@@ -10,21 +12,21 @@ interface BrandConfig {
   accentColor: string;  // Tailwind text color
   borderColor: string;  // Tailwind border color
   bgAlpha: string;      // Tailwind transparent bg
-  bgColor: string;      // [PATCH]: Tailwind solid bg for JIT Compiler
+  bgColor: string;      // Tailwind solid bg
   logoText: string;
 }
 
-// 2. THE BRAND MAP (The "SaaS" Dictionary)
+// 2. THE BRAND MAP
 const BRAND_MAP: Record<BrandID, BrandConfig> = {
   '1028BC': {
     id: '1028BC',
     label: '1028BC MASTER PLATFORM',
     shortName: '1028BC',
-    accentColor: 'text-yellow',
-    borderColor: 'border-yellow',
-    bgAlpha: 'bg-yellow/10',
-    bgColor: 'bg-yellow', // [PATCH]
-    logoText: '1028BC'
+    accentColor: 'text-blue-500',
+    borderColor: 'border-blue-500',
+    bgAlpha: 'bg-blue-500/10',
+    bgColor: 'bg-blue-500',
+    logoText: '1028BC',
   },
   'TECH_GUY': {
     id: 'TECH_GUY',
@@ -33,19 +35,16 @@ const BRAND_MAP: Record<BrandID, BrandConfig> = {
     accentColor: 'text-cyan-400',
     borderColor: 'border-cyan-400',
     bgAlpha: 'bg-cyan-400/10',
-    bgColor: 'bg-cyan-400', // [PATCH]
+    bgColor: 'bg-cyan-400',
     logoText: 'TECH_GUY'
   }
 };
 
 interface AppContextType {
-  // Navigation State
   activeTab: string;
   setActiveTab: (tab: string) => void;
-  // UI Toggles
   infoOverlaysEnabled: boolean;
   setInfoOverlaysEnabled: (enabled: boolean) => void;
-  // REBRANDING ENGINE
   currentBrand: BrandConfig;
   setBrand: (id: BrandID) => void;
 }
@@ -53,10 +52,21 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
+  const { saveState } = useContextKeep();
+  
   // State Initialization
   const [activeTab, setActiveTab] = useState('dashboard');
   const [infoOverlaysEnabled, setInfoOverlaysEnabled] = useState(false);
-  const [brandID, setBrandID] = useState<BrandID>('1028BC'); // Default to Master
+  const [brandID, setBrandID] = useState<BrandID>('1028BC');
+
+  // --- UPLINK LOGIC: Push Brand State to ContextKeep (Port 5100) ---
+  useEffect(() => {
+    saveState('1028bc_active_brand', { 
+      id: brandID, 
+      timestamp: new Date().toISOString(),
+      node: 'NV_HND_01'
+    });
+  }, [brandID]);
 
   const value = {
     activeTab,

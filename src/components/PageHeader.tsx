@@ -1,5 +1,5 @@
 import React from 'react';
-import { Terminal, MoreVertical } from 'lucide-react';
+import { MoreVertical } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 export const StatusIndicator = () => {
@@ -34,8 +34,10 @@ export const PageHeader = ({ titleTop, titleBottom, rightContent, children, acti
     <div className={`pt-12 flex flex-col items-start w-full border-l-2 ${currentBrand.borderColor} pl-6`}>
       <div className="flex justify-between items-center w-full mb-6">
         <div className="inline-flex items-center gap-2 px-3 py-1 border border-charcoal-light bg-charcoal-light/30 text-xs font-mono text-offwhite/70 uppercase tracking-widest">
-          <Terminal size={12} className={currentBrand.accentColor} />
-          <span>{`>_ ${currentBrand.shortName} / ${activePage || titleTop}`}</span>
+          <span className={currentBrand.accentColor} aria-hidden>
+            ::
+          </span>
+          <span>{`${currentBrand.shortName} / ${activePage || titleTop}`}</span>
         </div>
         <div className="flex items-center gap-4">
           <StatusIndicator />

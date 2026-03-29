@@ -1,5 +1,5 @@
 import React from 'react';
-import { Code2, Github, ExternalLink } from 'lucide-react';
+import { Code2, ExternalLink } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 import { PageHeader } from '../components/PageHeader';
 
@@ -18,7 +18,7 @@ export const LogicLabScreen = () => {
             <section className="bg-charcoal-light/30 border border-charcoal-light p-8 rounded-sm">
               <div className="flex items-center gap-4 mb-6">
                 <div className="w-12 h-12 bg-yellow/10 border border-yellow/20 flex items-center justify-center">
-                  <Github className="text-yellow" size={24} />
+                  <Code2 className="text-yellow" size={24} />
                 </div>
                 <div>
                   <h3 className="text-xl font-display font-bold uppercase tracking-tight text-white">Active Bounties</h3>

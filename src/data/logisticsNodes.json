@@ -1,0 +1,48 @@
+{
+    "gasStations": [
+      {
+        "id": "GAS_01",
+        "name": "Chevron (Lake Mead Pkwy)",
+        "coords": [36.0350, -114.9850],
+        "priceReg": "$3.85",
+        "updated": "2hr ago"
+      },
+      {
+        "id": "GAS_02",
+        "name": "Arco (Boulder Hwy)",
+        "coords": [36.0420, -114.9780],
+        "priceReg": "$3.79",
+        "updated": "5hr ago"
+      },
+      {
+        "id": "GAS_03",
+        "name": "Speedway (Water St)",
+        "coords": [36.0310, -114.9810],
+        "priceReg": "$3.81",
+        "updated": "1hr ago"
+      }
+    ],
+    "autoService": [
+      {
+        "id": "AUTO_01",
+        "name": "Discount Tire",
+        "coords": [36.0380, -114.9900],
+        "service": "Tire Rotation / Patch",
+        "nextAppt": "Today, 2:00 PM"
+      },
+      {
+        "id": "AUTO_02",
+        "name": "Valvoline Instant Oil Change",
+        "coords": [36.0450, -114.9750],
+        "service": "Standard Synthetic",
+        "price": "$65.00"
+      },
+      {
+        "id": "AUTO_03",
+        "name": "O'Reilly Auto Parts",
+        "coords": [36.0320, -114.9880],
+        "service": "Battery / Wipers / Diagnostics",
+        "nextAppt": "Walk-in"
+      }
+    ]
+  }
