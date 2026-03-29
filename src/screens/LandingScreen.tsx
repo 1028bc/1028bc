@@ -17,24 +17,24 @@ const HERO_DATA = [
   {
     id: 'profile',
     view: 'profile' as AppView,
-    title: 'THE ARCHITECT',
-    subtitle: 'Interactive resume, operational history, and active credentials.',
+    title: 'the architect',
+    subtitle: 'interactive resume, operational history, and active credentials.',
     image: IMG_PROFILE,
     icon: User
   },
   {
     id: 'portfolio',
     view: 'portfolio' as AppView,
-    title: 'ACTIVE PORTFOLIO',
-    subtitle: 'Case studies of SolUrbana interfaces and engineering deployments.',
+    title: 'active portfolio',
+    subtitle: 'case studies of solurbana interfaces and engineering deployments.',
     image: IMG_PORTFOLIO,
     icon: Briefcase
   },
   {
     id: 'marketplace',
     view: 'marketplace' as AppView,
-    title: 'THE 1028bc SHOP',
-    subtitle: 'Direct-to-consumer infrastructure for neural-etched hard goods and legacy hardware nodes.',
+    title: 'the 1028bc shop',
+    subtitle: 'direct-to-consumer infrastructure for neural-etched hard goods and legacy hardware nodes.',
     image: IMG_MARKETPLACE,
     icon: ShoppingCart
   }
@@ -79,10 +79,10 @@ const CinematicHero = ({ data, onClick, delay }: { data: typeof HERO_DATA[0], on
       <div className="absolute bottom-0 left-0 z-10 w-full md:w-3/4 lg:w-1/2 backdrop-blur-xl bg-black/30 p-12 md:p-16 lg:p-20 rounded-tr-[3rem] border-t border-r border-white/10 transition-transform duration-700 group-hover:translate-x-4">
         <div className="flex items-center gap-3 mb-6">
           <data.icon className="h-5 w-5 text-sky-400" />
-          <span className="font-mono text-[10px] font-bold tracking-[0.3em] text-sky-400/80 uppercase">Sector Gateway</span>
+          <span className="font-mono text-[10px] font-bold tracking-[0.3em] text-sky-400/80">sector gateway</span>
         </div>
         
-        <h2 className="font-display text-5xl md:text-7xl font-black tracking-tighter text-white leading-[0.9] uppercase italic">
+        <h2 className="font-display text-5xl md:text-7xl font-black tracking-tighter text-white leading-[0.9] italic">
           {data.title}
         </h2>
         
@@ -90,8 +90,8 @@ const CinematicHero = ({ data, onClick, delay }: { data: typeof HERO_DATA[0], on
           {data.subtitle}
         </p>
 
-        <div className="mt-10 flex items-center gap-4 text-[11px] font-bold tracking-[0.2em] text-white/40 group-hover:text-white transition-colors uppercase">
-          Initialize Sector Uplink <ArrowRight className="h-5 w-5 transition-transform duration-500 group-hover:translate-x-4" />
+        <div className="mt-10 flex items-center gap-4 text-[11px] font-bold tracking-[0.2em] text-white/40 group-hover:text-white transition-colors">
+          initialize sector uplink <ArrowRight className="h-5 w-5 transition-transform duration-500 group-hover:translate-x-4" />
         </div>
       </div>
     </motion.section>
@@ -112,7 +112,6 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
         }
       `}</style>
 
-      {/* MASTER NODE INITIALIZATION (New Introduction Section) */}
       <section className="relative min-h-screen flex flex-col items-center justify-center px-6 text-center overflow-hidden border-b border-white/10">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(56,189,248,0.08),transparent_70%)]" />
         
@@ -123,29 +122,29 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
         >
           <div className="flex items-center gap-3 px-4 py-1.5 rounded-full border border-sky-500/30 bg-sky-500/10 mb-8">
             <Terminal size={14} className="text-sky-400" />
-            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-sky-400">Node 1028bc // Master Protocol</span>
+            <span className="text-[10px] font-black tracking-[0.3em] text-sky-400">node 1028bc // master protocol</span>
           </div>
 
-          <h1 className="text-6xl md:text-9xl font-black uppercase tracking-tighter text-white leading-none mb-8 italic">
+          <h1 className="text-6xl md:text-9xl font-black tracking-tighter text-white leading-none mb-8 italic">
             1028bc
           </h1>
 
           <p className="max-w-2xl text-lg md:text-2xl text-white/50 font-medium leading-relaxed mb-12">
-            The integrated architectural framework for <span className="text-white">infrastructure development</span>, 
+            the integrated architectural framework for <span className="text-white">infrastructure development</span>, 
             <span className="text-white">urban intelligence</span>, and <span className="text-white">field operations</span>. 
-            Controlled by Lead Architect Brian Kurtis Campbell.
+            controlled by lead architect brian kurtis campbell.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full max-w-4xl">
             {[
-              { icon: Shield, label: 'Secure Vault', desc: 'IAM & Credential Management' },
-              { icon: Activity, label: 'Telemetry', desc: 'Real-time System Status' },
-              { icon: Zap, label: 'Directives', desc: 'SolUrbana & Active Projects' }
+              { icon: Shield, label: 'secure vault', desc: 'iam & credential management' },
+              { icon: Activity, label: 'telemetry', desc: 'real-time system status' },
+              { icon: Zap, label: 'directives', desc: 'solurbana & active projects' }
             ].map((item, i) => (
               <div key={i} className="p-6 rounded-xl border border-white/5 bg-white/[0.02] text-left">
                 <item.icon size={20} className="text-sky-400 mb-4" />
-                <h3 className="text-[10px] font-black uppercase tracking-widest text-white mb-1">{item.label}</h3>
-                <p className="text-[9px] font-mono text-white/30 uppercase tracking-tighter">{item.desc}</p>
+                <h3 className="text-[10px] font-black tracking-widest text-white mb-1">{item.label}</h3>
+                <p className="text-[9px] font-mono text-white/30 tracking-tighter">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -155,13 +154,12 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
             transition={{ repeat: Infinity, duration: 2 }}
             className="mt-20 text-white/20 flex flex-col items-center gap-2"
           >
-            <span className="text-[9px] font-black uppercase tracking-[0.4em]">Initialize Sectors</span>
+            <span className="text-[9px] font-black tracking-[0.4em]">initialize sectors</span>
             <ChevronDown size={20} />
           </motion.div>
         </motion.div>
       </section>
 
-      {/* SECTOR UPLINKS (Existing Cinematic Sections) */}
       <div className="flex flex-col">
         {HERO_DATA.map((hero, index) => (
           <CinematicHero

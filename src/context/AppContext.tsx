@@ -2,45 +2,55 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import { useContextKeep } from '../hooks/useContextKeep';
 
-// 1. DEFINE THE TENANTS
-export type BrandID = '1028BC' | 'TECH_GUY';
+// 1. define the tenants (lowercase protocol enforced)
+export type BrandID = '1028bc' | 'tech_guy';
+export type app_view = 'landing' | 'profile' | 'portfolio' | 'marketplace' | 'auth' | 'admin';
 
 interface BrandConfig {
   id: BrandID;
   label: string;
   shortName: string;
-  accentColor: string;  // Tailwind text color
-  borderColor: string;  // Tailwind border color
-  bgAlpha: string;      // Tailwind transparent bg
-  bgColor: string;      // Tailwind solid bg
+  accentColor: string;  // tailwind text color
+  borderColor: string;  // tailwind border color
+  bgAlpha: string;      // tailwind transparent bg
+  bgColor: string;      // tailwind solid bg
   logoText: string;
 }
 
-// 2. THE BRAND MAP
+// 2. the brand map
 const BRAND_MAP: Record<BrandID, BrandConfig> = {
-  '1028BC': {
-    id: '1028BC',
-    label: '1028BC MASTER PLATFORM',
-    shortName: '1028BC',
+  '1028bc': {
+    id: '1028bc',
+    label: '1028bc master platform',
+    shortName: '1028bc',
     accentColor: 'text-blue-500',
     borderColor: 'border-blue-500',
     bgAlpha: 'bg-blue-500/10',
     bgColor: 'bg-blue-500',
-    logoText: '1028BC',
+    logoText: '1028bc',
   },
-  'TECH_GUY': {
-    id: 'TECH_GUY',
-    label: 'TECH GUY ON THE GO',
-    shortName: 'TGOTG',
+  'tech_guy': {
+    id: 'tech_guy',
+    label: 'tech guy on the go',
+    shortName: 'tgotg',
     accentColor: 'text-cyan-400',
     borderColor: 'border-cyan-400',
     bgAlpha: 'bg-cyan-400/10',
     bgColor: 'bg-cyan-400',
-    logoText: 'TECH_GUY'
+    logoText: 'tech_guy'
   }
 };
 
 interface AppContextType {
+  // session & view state
+  user: any | null;
+  setUser: (user: any | null) => void;
+  currentView: app_view;
+  setCurrentView: (view: app_view) => void;
+  theme: 'cyber' | 'minimal';
+  setTheme: (theme: 'cyber' | 'minimal') => void;
+  
+  // field ops & brand state
   activeTab: string;
   setActiveTab: (tab: string) => void;
   infoOverlaysEnabled: boolean;
@@ -54,21 +64,32 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const { saveState } = useContextKeep();
   
-  // State Initialization
+  // existing operational state
   const [activeTab, setActiveTab] = useState('dashboard');
   const [infoOverlaysEnabled, setInfoOverlaysEnabled] = useState(false);
-  const [brandID, setBrandID] = useState<BrandID>('1028BC');
+  const [brandID, setBrandID] = useState<BrandID>('1028bc');
 
-  // --- UPLINK LOGIC: Push Brand State to ContextKeep (Port 5100) ---
+  // new global protocol state
+  const [user, setUser] = useState<any | null>(null);
+  const [currentView, setCurrentView] = useState<app_view>('landing');
+  const [theme, setTheme] = useState<'cyber' | 'minimal'>('cyber');
+
+  // --- uplink logic: push brand state to contextkeep (port 5100) ---
   useEffect(() => {
     saveState('1028bc_active_brand', { 
       id: brandID, 
       timestamp: new Date().toISOString(),
-      node: 'NV_HND_01'
+      node: 'nv_hnd_01'
     });
-  }, [brandID]);
+  }, [brandID, saveState]);
 
   const value = {
+    user,
+    setUser,
+    currentView,
+    setCurrentView,
+    theme,
+    setTheme,
     activeTab,
     setActiveTab,
     infoOverlaysEnabled,
