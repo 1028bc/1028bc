@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, User, Briefcase, ShoppingCart, Terminal, Shield, Activity, Zap, ChevronDown } from 'lucide-react';
 import { IntelDashboard } from '../components/IntelDashboard';
+import { MemorySearch } from '../components/MemorySearch';
 import '../styles/StonePlaque.css';
 
 export type AppView = 'landing' | 'profile' | 'portfolio' | 'marketplace' | 'auth' | 'admin';
@@ -10,17 +11,13 @@ interface LandingScreenProps {
   setCurrentView: (v: AppView) => void;
 }
 
-const IMG_PROFILE = 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=85&w=2400&auto=format&fit=crop';
-const IMG_PORTFOLIO = 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=85&w=2400&auto=format&fit=crop';
-const IMG_MARKETPLACE = 'https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=85&w=2400&auto=format&fit=crop';
-
 const HERO_DATA = [
   {
     id: 'profile',
     view: 'profile' as AppView,
     title: 'the architect',
     subtitle: 'interactive resume, operational history, and active credentials.',
-    image: IMG_PROFILE,
+    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=85&w=2400',
     icon: User
   },
   {
@@ -28,7 +25,7 @@ const HERO_DATA = [
     view: 'portfolio' as AppView,
     title: 'active portfolio',
     subtitle: 'case studies of solurbana interfaces and engineering deployments.',
-    image: IMG_PORTFOLIO,
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=85&w=2400',
     icon: Briefcase
   },
   {
@@ -36,7 +33,7 @@ const HERO_DATA = [
     view: 'marketplace' as AppView,
     title: 'the 1028bc shop',
     subtitle: 'direct-to-consumer infrastructure for neural-etched hard goods.',
-    image: IMG_MARKETPLACE,
+    image: 'https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=85&w=2400',
     icon: ShoppingCart
   }
 ];
@@ -61,26 +58,26 @@ const CinematicHero = ({ data, onClick, delay }: { data: typeof HERO_DATA[0], on
       viewport={{ once: true }}
       transition={{ duration: 0.8, delay }}
       onClick={onClick}
-      className="group relative h-screen w-full overflow-hidden cursor-pointer border-b border-white/5"
+      className="group relative h-screen w-full overflow-hidden cursor-pointer border-b border-white/5 bg-black"
     >
-      <div className="absolute inset-0 bg-black">
+      <div className="absolute inset-0">
         <img
           src={data.image}
           alt=""
-          className={`h-full w-full object-cover object-[center_20%] opacity-40 transition-opacity duration-1000 group-hover:opacity-60 ${inView ? 'animate-pan' : 'scale-100'}`}
+          className={`h-full w-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105 ${inView ? 'opacity-40' : 'opacity-0'}`}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
       </div>
 
-      <div className="absolute bottom-0 left-0 z-10 w-full md:w-3/4 lg:w-1/2 backdrop-blur-xl bg-black/30 p-12 md:p-16 lg:p-20 rounded-tr-[3rem] border-t border-r border-white/10 transition-transform duration-700 group-hover:translate-x-4">
+      <div className="absolute bottom-0 left-0 z-10 p-12 md:p-20 transition-transform duration-700 group-hover:translate-x-6">
         <div className="flex items-center gap-3 mb-6">
           <data.icon className="h-5 w-5 text-sky-400" />
-          <span className="font-mono text-[10px] font-bold tracking-[0.3em] text-sky-400/80 uppercase">sector_gateway</span>
+          <span className="font-mono text-[10px] font-bold tracking-[0.3em] text-sky-400 uppercase">sector_gateway</span>
         </div>
-        <h2 className="font-display text-5xl md:text-7xl font-black tracking-tighter text-white leading-[0.9] italic lowercase">{data.title}</h2>
-        <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/60 font-medium">{data.subtitle}</p>
-        <div className="mt-10 flex items-center gap-4 text-[11px] font-bold tracking-[0.2em] text-white/40 group-hover:text-white transition-colors uppercase">
-          initialize sector uplink <ArrowRight className="h-5 w-5 transition-transform duration-500 group-hover:translate-x-4" />
+        <h2 className="font-display text-5xl md:text-8xl font-black tracking-tighter text-white leading-[0.9] italic lowercase">{data.title}</h2>
+        <p className="mt-6 max-w-md text-lg text-white/50 font-medium leading-relaxed">{data.subtitle}</p>
+        <div className="mt-10 flex items-center gap-4 text-[11px] font-bold tracking-[0.2em] text-white/30 group-hover:text-white transition-colors uppercase">
+          initialize uplink <ArrowRight className="h-5 w-5 transition-transform duration-500 group-hover:translate-x-4" />
         </div>
       </div>
     </motion.section>
@@ -89,17 +86,13 @@ const CinematicHero = ({ data, onClick, delay }: { data: typeof HERO_DATA[0], on
 
 export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
   return (
-    <div className="w-full bg-[#050505]">
-      <style>{`
-        @keyframes pan { 0% { transform: scale(1); } 100% { transform: scale(1.1) translate(-2%, -1%); } }
-        .animate-pan { animation: pan 20s linear infinite alternate; will-change: transform; }
-      `}</style>
-
+    <div className="w-full bg-[#050505] selection:bg-sky-500/30">
+      
       {/* SECTION 1: THE #17 STONE HERO */}
-      <section className="stone-hero-wrapper min-h-screen">
+      <section className="stone-hero-wrapper min-h-screen flex items-center justify-center">
         <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
           className="stone-plaque"
         >
@@ -107,21 +100,13 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
           <h1 className="stone-plaque-title">1028bc</h1>
           <p className="stone-plaque-desc">
             Integrated architectural framework for <span className="text-white">infrastructure development</span>, 
-            <span className="text-white">urban intelligence</span>, and <span className="text-white">field operations</span>. 
-            master control by architect brian kurtis campbell.
+            <span className="text-white">urban intelligence</span>, and <span className="text-white">field operations</span>.
           </p>
 
-          <div className="flex justify-center gap-8 mb-12">
-            {[
-              { icon: Shield, label: 'Vault' },
-              { icon: Activity, label: 'Telemetry' },
-              { icon: Zap, label: 'Directives' }
-            ].map((item, i) => (
-              <div key={i} className="flex flex-col items-center gap-2">
-                <item.icon size={18} className="text-sky-500/50" />
-                <span className="text-[9px] font-black uppercase tracking-widest text-white/20">{item.label}</span>
-              </div>
-            ))}
+          <div className="flex justify-center gap-8 mb-16 opacity-20 group-hover:opacity-100 transition-opacity">
+            <Shield size={18} />
+            <Activity size={18} />
+            <Zap size={18} />
           </div>
           
           <motion.div 
@@ -135,34 +120,44 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
         </motion.div>
       </section>
 
-      {/* SECTION 2: THE AUTOMATION HUB (INTELLIGENCE DASHBOARD) */}
-      <section className="py-24 px-6 border-t border-white/5 bg-[#080808]">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-          <div>
-            <div className="flex items-center gap-3 mb-6">
-              <Terminal size={18} className="text-sky-400" />
-              <span className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-400">Intelligence_Ingestor</span>
-            </div>
-            <h2 className="text-4xl md:text-6xl font-black italic text-white uppercase tracking-tighter leading-none mb-6">
-              Automated_Ops
-            </h2>
-            <p className="text-white/40 text-lg leading-relaxed mb-8 font-light">
-              24/7 automated data harvesting via Oxylabs and Firecrawl API. 
-              Transforming YouTube transcripts and documentation into actionable internal logic.
-            </p>
-            <div className="grid grid-cols-2 gap-4">
-              <div className="p-4 border border-white/5 bg-white/[0.01] rounded-xl">
-                <span className="block text-[10px] font-black text-white/30 uppercase mb-1">Status</span>
-                <span className="text-emerald-500 font-mono text-xs font-bold uppercase tracking-widest">Uplink Stable</span>
+      {/* SECTION 2: AUTOMATED OPS (INTELLIGENCE HUB) */}
+      <section className="py-32 px-6 border-t border-white/5 bg-[#080808]">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+            
+            {/* Context Side */}
+            <div className="lg:sticky lg:top-32">
+              <div className="flex items-center gap-3 mb-6">
+                <Terminal size={18} className="text-sky-400" />
+                <span className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-400">Node_Uplink</span>
               </div>
-              <div className="p-4 border border-white/5 bg-white/[0.01] rounded-xl">
-                <span className="block text-[10px] font-black text-white/30 uppercase mb-1">Queue</span>
-                <span className="text-sky-400 font-mono text-xs font-bold uppercase tracking-widest">0 Tasks Pending</span>
+              <h2 className="text-5xl md:text-7xl font-black italic text-white uppercase tracking-tighter leading-[0.85] mb-8">
+                Automated<br/>Operations
+              </h2>
+              <p className="text-white/40 text-lg leading-relaxed max-w-md font-light mb-12">
+                24/7 automated data harvesting via Oxylabs and Firecrawl API. 
+                Transforming external documentation and technical video feeds into actionable internal logic.
+              </p>
+              
+              <div className="grid grid-cols-2 gap-4 max-w-sm">
+                <div className="p-4 border border-white/5 bg-white/[0.01] rounded-xl">
+                  <span className="block text-[10px] font-black text-white/30 uppercase mb-1">Status</span>
+                  <span className="text-emerald-500 font-mono text-xs font-bold uppercase tracking-widest">Uplink Stable</span>
+                </div>
+                <div className="p-4 border border-white/5 bg-white/[0.01] rounded-xl">
+                  <span className="block text-[10px] font-black text-white/30 uppercase mb-1">Database</span>
+                  <span className="text-sky-400 font-mono text-xs font-bold uppercase tracking-widest">Vercel KV Live</span>
+                </div>
               </div>
             </div>
+            
+            {/* Tool Side */}
+            <div className="space-y-12">
+              <IntelDashboard />
+              <MemorySearch />
+            </div>
+
           </div>
-          
-          <IntelDashboard />
         </div>
       </section>
 
