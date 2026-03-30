@@ -17,7 +17,7 @@ interface BrandConfig {
   logoText: string;
 }
 
-// 2. the brand map
+// 2. the brand map (strictly lowercase)
 const BRAND_MAP: Record<BrandID, BrandConfig> = {
   '1028bc': {
     id: '1028bc',
@@ -62,6 +62,7 @@ interface AppContextType {
 const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
+  // the hook now points to the vercel edge api instead of localhost
   const { saveState } = useContextKeep();
   
   // existing operational state
@@ -74,12 +75,12 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [currentView, setCurrentView] = useState<app_view>('landing');
   const [theme, setTheme] = useState<'cyber' | 'minimal'>('cyber');
 
-  // --- uplink logic: push brand state to contextkeep (port 5100) ---
+  // --- uplink logic: push brand state to vercel edge (global uplink) ---
   useEffect(() => {
     saveState('1028bc_active_brand', { 
       id: brandID, 
       timestamp: new Date().toISOString(),
-      node: 'nv_hnd_01'
+      node: 'global_edge_01' // updated from local node
     });
   }, [brandID, saveState]);
 
