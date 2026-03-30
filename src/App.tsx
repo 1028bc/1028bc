@@ -107,7 +107,7 @@ export default function App() {
     }
   };
 
-  const homeLabel = currentBrand.id === '1028BC' ? '1028BC' : currentBrand.logoText;
+  const homeLabel = currentBrand.id === '1028bc' ? '1028bc' : currentBrand.logoText;
   const isFieldOps = currentView === 'field-ops';
 
   return (
