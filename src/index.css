@@ -5,13 +5,14 @@
   --color-charcoal: #1A1A1A;
   --color-charcoal-light: #333333;
   --color-charcoal-dark: #0A0A0A;
+  --color-sky-blue: #38bdf8;
   --color-yellow: #FFD700;
   --color-offwhite: #F5F5F5;
   --font-display: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 }
 
-/* --- THE GLOBAL FLUSH --- */
+/* --- THE GLOBAL CHASSIS --- */
 html, body, #root {
   margin: 0 !important;
   padding: 0 !important;
@@ -19,9 +20,9 @@ html, body, #root {
   min-height: 100vh;
   box-sizing: border-box;
   overflow-x: hidden;
-  background-color: var(--color-charcoal);
+  background-color: var(--color-charcoal-dark);
   color: var(--color-offwhite);
-  font-family: var(--font-display);
+  font-family: var(--font-mono); /* Force mono for industrial grit */
   -webkit-font-smoothing: antialiased;
 }
 
@@ -29,7 +30,26 @@ html, body, #root {
   box-sizing: inherit;
 }
 
-code, pre, .font-mono { font-family: var(--font-mono); }
+/* --- TECHNICAL GRID & SCANLINES --- */
+.blueprint-grid {
+  background-image: 
+    linear-gradient(rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+  background-size: 20px 20px; /* $20px \times 20px$ technical coordinate grid */
+  position: relative;
+}
+
+/* Sub-pixel Scanline Overlay */
+body::after {
+  content: " ";
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), 
+              linear-gradient(90deg, rgba(56, 189, 248, 0.02), rgba(0, 255, 0, 0.01), rgba(56, 189, 248, 0.02));
+  background-size: 100% 3px, 3px 100%;
+  pointer-events: none;
+  z-index: 9999;
+}
 
 /* --- APP CONTAINER & LAYOUT --- */
 .app-container {
@@ -37,7 +57,6 @@ code, pre, .font-mono { font-family: var(--font-mono); }
   flex-direction: column;
   height: 100vh;
   overflow: hidden;
-  background-color: #0a0f16;
 }
 
 .map-wrapper {
@@ -45,6 +64,34 @@ code, pre, .font-mono { font-family: var(--font-mono); }
   height: 100%;
   position: relative;
   z-index: 0;
+}
+
+/* --- BRUTALIST UI MODULES --- */
+.brutalist-module {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-charcoal-dark);
+  box-shadow: 4px 4px 0px rgba(56, 189, 248, 0.1);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.brutalist-module:hover {
+  border-color: var(--color-sky-blue);
+  box-shadow: 8px 8px 0px rgba(56, 189, 248, 0.2);
+}
+
+.terminal-input {
+  font-family: var(--font-mono);
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid var(--color-charcoal-light);
+  color: white;
+  padding: 0.5rem 0;
+}
+
+.terminal-input:focus {
+  border-bottom-color: var(--color-sky-blue);
+  outline: none;
+  background: linear-gradient(to top, rgba(56, 189, 248, 0.05), transparent);
 }
 
 /* --- CONTEXT-AWARE HEADER ENGINE --- */
@@ -60,44 +107,24 @@ code, pre, .font-mono { font-family: var(--font-mono); }
   width: 100%;
 }
 
-/* Mode 1: Standard Global Header (Public/Shop) - Flush to top */
 .app-header.standard {
   position: sticky;
   top: 0;
-  transform: none;
-  margin: 0;
   backdrop-filter: blur(12px);
-  pointer-events: auto;
 }
 
-/* Mode 2: Field Ops Exclusive HUD (Hidden Drawer) */
 .app-header.field-ops-mode {
   position: absolute;
   top: 0;
   left: 0;
   background: transparent;
   border-bottom: none;
-  margin-top: -60px; /* Hidden physically */
+  margin-top: -60px;
   transform: translateY(-100%);
-  pointer-events: none; /* Let clicks pass to map */
+  pointer-events: none;
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.95);
 }
 
-.app-header.field-ops-mode button, 
-.app-header.field-ops-mode .pointer-events-auto {
-  pointer-events: auto; 
-}
-
-.header-trigger-zone {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 25px; /* Slightly larger for touch targets */
-  z-index: 9999;
-}
-
-/* React-Driven Physics States */
 .app-header.field-ops-mode.peek {
   margin-top: 0;
   transform: translateY(0);
@@ -109,26 +136,40 @@ code, pre, .font-mono { font-family: var(--font-mono); }
 .app-header.field-ops-mode.locked {
   margin-top: 0 !important;
   transform: translateY(0) !important;
-  background-color: rgba(10, 15, 22, 0.98) !important;
-  border-bottom: 1px solid rgba(56, 189, 248, 0.8) !important;
+  border-bottom: 1px solid var(--color-sky-blue) !important;
   box-shadow: 0 4px 20px rgba(56, 189, 248, 0.15);
   pointer-events: auto;
   animation: pulse-border 2.5s infinite;
 }
 
 @keyframes pulse-border {
-  0% { border-bottom-color: rgba(56, 189, 248, 0.3); }
+  0%, 100% { border-bottom-color: rgba(56, 189, 248, 0.3); }
   50% { border-bottom-color: rgba(56, 189, 248, 1); }
-  100% { border-bottom-color: rgba(56, 189, 248, 0.3); }
 }
 
-/* Tactical Map Overrides */
+/* --- TACTICAL MAP OVERRIDES --- */
 .tactical-map-filter { filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(100%); }
-.leaflet-container { background: #0a0f16 !important; font-family: var(--font-display) !important; }
+.leaflet-container { background: #0a0f16 !important; }
 .leaflet-bar { border: 1px solid rgba(56, 189, 248, 0.2) !important; box-shadow: 0 0 15px rgba(0, 0, 0, 0.5) !important; }
 .leaflet-bar a { background-color: rgba(10, 15, 22, 0.9) !important; color: #38bdf8 !important; border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important; }
 .leaflet-bar a:hover { background-color: rgba(56, 189, 248, 0.1) !important; color: #fff !important; }
-.tactical-popup .leaflet-popup-content-wrapper { background: rgba(10, 15, 22, 0.9); border: 1px solid rgba(56, 189, 248, 0.3); color: white; border-radius: 8px; backdrop-filter: blur(8px); }
-.tactical-popup .leaflet-popup-tip { background: rgba(10, 15, 22, 0.9); border: 1px solid rgba(56, 189, 248, 0.3); }
-.leaflet-tooltip.tactical-label { background: transparent !important; border: none !important; box-shadow: none !important; color: #38bdf8 !important; font-family: var(--font-mono) !important; font-weight: 900 !important; font-size: 10px !important; text-shadow: 0px 2px 6px rgba(0,0,0,0.9) !important; }
-.leaflet-tooltip.tactical-label::before { display: none !important; }
+
+.tactical-popup .leaflet-popup-content-wrapper { 
+  background: rgba(10, 15, 22, 0.9); 
+  border: 1px solid rgba(56, 189, 248, 0.3); 
+  color: white; 
+  border-radius: 4px; 
+  backdrop-filter: blur(8px); 
+  font-family: var(--font-mono);
+}
+
+.leaflet-tooltip.tactical-label { 
+  background: transparent !important; 
+  border: none !important; 
+  box-shadow: none !important; 
+  color: var(--color-sky-blue) !important; 
+  font-family: var(--font-mono) !important; 
+  font-weight: 900 !important; 
+  font-size: 10px !important; 
+  text-shadow: 0px 2px 6px rgba(0,0,0,0.9) !important; 
+}

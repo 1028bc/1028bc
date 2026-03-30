@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, User, Briefcase, ShoppingCart, Terminal, Shield, Activity, Zap, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, User, Briefcase, ShoppingCart, Terminal, Shield, Activity, Zap, ChevronDown, Monitor, X } from 'lucide-react';
 import { IntelDashboard } from '../components/IntelDashboard';
 import { MemorySearch } from '../components/MemorySearch';
 import '../styles/StonePlaque.css';
@@ -64,7 +64,7 @@ const CinematicHero = ({ data, onClick, delay }: { data: typeof HERO_DATA[0], on
         <img
           src={data.image}
           alt=""
-          className={`h-full w-full object-cover grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105 ${inView ? 'opacity-40' : 'opacity-0'}`}
+          className={`h-full w-full object-cover object-[center_20%] grayscale transition-all duration-1000 group-hover:grayscale-0 group-hover:scale-105 ${inView ? 'animate-pan opacity-40' : 'opacity-0'}`}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
       </div>
@@ -77,7 +77,7 @@ const CinematicHero = ({ data, onClick, delay }: { data: typeof HERO_DATA[0], on
         <h2 className="font-display text-5xl md:text-8xl font-black tracking-tighter text-white leading-[0.9] italic lowercase">{data.title}</h2>
         <p className="mt-6 max-w-md text-lg text-white/50 font-medium leading-relaxed">{data.subtitle}</p>
         <div className="mt-10 flex items-center gap-4 text-[11px] font-bold tracking-[0.2em] text-white/30 group-hover:text-white transition-colors uppercase">
-          initialize uplink <ArrowRight className="h-5 w-5 transition-transform duration-500 group-hover:translate-x-4" />
+          initialize sector uplink <ArrowRight className="h-5 w-5 transition-transform duration-500 group-hover:translate-x-4" />
         </div>
       </div>
     </motion.section>
@@ -85,28 +85,44 @@ const CinematicHero = ({ data, onClick, delay }: { data: typeof HERO_DATA[0], on
 };
 
 export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
+  const [terminalOpen, setTerminalOpen] = useState(false);
+
   return (
-    <div className="w-full bg-[#050505] selection:bg-sky-500/30">
-      
+    <div className="w-full blueprint-grid bg-[#050505] selection:bg-sky-500/30">
+      <style>{`
+        @keyframes pan { 0% { transform: scale(1); } 100% { transform: scale(1.1) translate(-2%, -1%); } }
+        .animate-pan { animation: pan 20s linear infinite alternate; will-change: transform; }
+      `}</style>
+
       {/* SECTION 1: THE #17 STONE HERO */}
-      <section className="stone-hero-wrapper min-h-screen flex items-center justify-center">
+      <section className="stone-hero-wrapper min-h-screen flex items-center justify-center p-6">
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="stone-plaque"
+          className="stone-plaque relative z-10"
         >
           <span className="stone-plaque-sub">Protocol // 1028bc_Master</span>
           <h1 className="stone-plaque-title">1028bc</h1>
           <p className="stone-plaque-desc">
             Integrated architectural framework for <span className="text-white">infrastructure development</span>, 
             <span className="text-white">urban intelligence</span>, and <span className="text-white">field operations</span>.
+            master control by lead architect brian kurtis campbell.
           </p>
 
-          <div className="flex justify-center gap-8 mb-16 opacity-20 group-hover:opacity-100 transition-opacity">
-            <Shield size={18} />
-            <Activity size={18} />
-            <Zap size={18} />
+          <div className="flex justify-center gap-10 mb-16 opacity-30">
+            <div className="flex flex-col items-center gap-2">
+              <Shield size={18} className="text-sky-400" />
+              <span className="text-[8px] font-black uppercase tracking-widest text-white/40 font-mono">[Vault]</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Activity size={18} className="text-sky-400" />
+              <span className="text-[8px] font-black uppercase tracking-widest text-white/40 font-mono">[Live]</span>
+            </div>
+            <div className="flex flex-col items-center gap-2">
+              <Zap size={18} className="text-sky-400" />
+              <span className="text-[8px] font-black uppercase tracking-widest text-white/40 font-mono">[Direct]</span>
+            </div>
           </div>
           
           <motion.div 
@@ -120,49 +136,36 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
         </motion.div>
       </section>
 
-      {/* SECTION 2: AUTOMATED OPS (INTELLIGENCE HUB) */}
-      <section className="py-32 px-6 border-t border-white/5 bg-[#080808]">
+      {/* SECTION 2: ACTIVE_DEPLOYMENTS (Grid-Snapped) */}
+      <section className="py-24 px-6 border-t border-white/5 bg-black/60 relative z-10">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
-            
-            {/* Context Side */}
-            <div className="lg:sticky lg:top-32">
-              <div className="flex items-center gap-3 mb-6">
-                <Terminal size={18} className="text-sky-400" />
-                <span className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-400">Node_Uplink</span>
-              </div>
-              <h2 className="text-5xl md:text-7xl font-black italic text-white uppercase tracking-tighter leading-[0.85] mb-8">
-                Automated<br/>Operations
-              </h2>
-              <p className="text-white/40 text-lg leading-relaxed max-w-md font-light mb-12">
-                24/7 automated data harvesting via Oxylabs and Firecrawl API. 
-                Transforming external documentation and technical video feeds into actionable internal logic.
-              </p>
-              
-              <div className="grid grid-cols-2 gap-4 max-w-sm">
-                <div className="p-4 border border-white/5 bg-white/[0.01] rounded-xl">
-                  <span className="block text-[10px] font-black text-white/30 uppercase mb-1">Status</span>
-                  <span className="text-emerald-500 font-mono text-xs font-bold uppercase tracking-widest">Uplink Stable</span>
-                </div>
-                <div className="p-4 border border-white/5 bg-white/[0.01] rounded-xl">
-                  <span className="block text-[10px] font-black text-white/30 uppercase mb-1">Database</span>
-                  <span className="text-sky-400 font-mono text-xs font-bold uppercase tracking-widest">Vercel KV Live</span>
-                </div>
-              </div>
-            </div>
-            
-            {/* Tool Side */}
-            <div className="space-y-12">
-              <IntelDashboard />
-              <MemorySearch />
-            </div>
-
+          <div className="flex items-center gap-3 mb-12">
+            <Monitor size={18} className="text-sky-400" />
+            <span className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-400">Project_Telemetry</span>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
+            <DeploymentNode 
+              title="SolUrbana Grid" 
+              desc="Comprehensive urban intelligence and utility comparison framework." 
+              status="Live" 
+            />
+            <DeploymentNode 
+              title="Field Engine" 
+              desc="Modular break-fix warranty repair HUD for Dell/Lenovo technicians." 
+              status="Alpha" 
+            />
+            <DeploymentNode 
+              title="1028bc Protocol" 
+              desc="Neural-etched hardware assets and legacy node marketplace." 
+              status="Operational" 
+            />
           </div>
         </div>
       </section>
 
       {/* SECTION 3: SECTOR GATEWAYS */}
-      <div className="flex flex-col">
+      <div className="flex flex-col relative z-10">
         {HERO_DATA.map((hero, index) => (
           <CinematicHero
             key={hero.id}
@@ -172,6 +175,52 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
           />
         ))}
       </div>
+
+      {/* SECTION 4: DOCKED TERMINAL UTILITY (INGESTOR) */}
+      <div className="fixed bottom-8 right-8 z-[1000]">
+        <button 
+          onClick={() => setTerminalOpen(!terminalOpen)}
+          className={`p-4 brutalist-module flex items-center gap-3 font-black uppercase text-[10px] tracking-widest transition-all ${terminalOpen ? 'bg-white text-black' : 'bg-sky-500 text-black hover:bg-white'}`}
+        >
+          {terminalOpen ? <X size={16} /> : <Terminal size={16} />}
+          {terminalOpen ? 'Close_Session' : 'Terminal_Uplink'}
+        </button>
+
+        <AnimatePresence>
+          {terminalOpen && (
+            <motion.div 
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              className="absolute bottom-16 right-0 w-[400px] md:w-[500px] brutalist-module p-8 shadow-[0_30px_60px_rgba(0,0,0,0.8)] border-sky-500/50"
+            >
+              <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-4">
+                <Terminal size={14} className="text-sky-400" />
+                <span className="text-[10px] font-black text-sky-400 uppercase tracking-[0.3em]">Master_Ingestor_v2.0</span>
+              </div>
+              <div className="space-y-12">
+                <IntelDashboard />
+                <MemorySearch />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </div>
   );
 };
+
+const DeploymentNode = ({ title, desc, status }: { title: string, desc: string, status: string }) => (
+  <div className="p-10 border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-sky-500/30 transition-all cursor-pointer group">
+    <div className="flex items-center gap-2 mb-4">
+      <div className={`w-1.5 h-1.5 rounded-full ${status === 'Live' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-sky-500'}`} />
+      <span className="text-[9px] font-black uppercase tracking-widest text-white/20 group-hover:text-white/40">{status}</span>
+    </div>
+    <h3 className="text-3xl font-black italic text-white tracking-tighter mb-4 lowercase">{title}</h3>
+    <p className="text-white/40 text-sm leading-relaxed mb-8 font-medium">{desc}</p>
+    {/* Corrected the unexpected token character below */}
+    <div className="flex items-center gap-2 text-[10px] font-black text-white/10 group-hover:text-sky-400 transition-colors uppercase tracking-[0.2em]">
+      Initialize_Node_Access <ArrowRight size={12} className="transition-transform group-hover:translate-x-1" />
+    </div>
+  </div>
+);
