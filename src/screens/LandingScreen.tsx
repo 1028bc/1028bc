@@ -95,22 +95,22 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
       `}</style>
 
       {/* SECTION 1: THE #17 STONE HERO */}
-      <section className="stone-hero-wrapper min-h-screen flex items-center justify-center p-6">
+      <section className="stone-hero-container min-h-screen">
         <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1 }}
-          className="stone-plaque relative z-10"
+          className="stone-plaque"
         >
-          <span className="stone-plaque-sub">Protocol // 1028bc_Master</span>
-          <h1 className="stone-plaque-title">1028bc</h1>
-          <p className="stone-plaque-desc">
+          <span className="plaque-subtitle">Protocol // 1028bc_Master</span>
+          <h1 className="plaque-title">1028bc</h1>
+          <p className="plaque-desc">
             Integrated architectural framework for <span className="text-white">infrastructure development</span>, 
             <span className="text-white">urban intelligence</span>, and <span className="text-white">field operations</span>.
             master control by lead architect brian kurtis campbell.
           </p>
 
-          <div className="flex justify-center gap-10 mb-16 opacity-30">
+          <div className="mt-12 flex justify-center gap-10 opacity-30 group-hover:opacity-100 transition-opacity">
             <div className="flex flex-col items-center gap-2">
               <Shield size={18} className="text-sky-400" />
               <span className="text-[8px] font-black uppercase tracking-widest text-white/40 font-mono">[Vault]</span>
@@ -128,7 +128,8 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
           <motion.div 
             animate={{ y: [0, 10, 0] }} 
             transition={{ repeat: Infinity, duration: 2 }}
-            className="text-white/20 flex flex-col items-center gap-2"
+            className="mt-12 text-white/20 flex flex-col items-center gap-2 cursor-pointer"
+            onClick={() => document.getElementById('telemetry')?.scrollIntoView({ behavior: 'smooth' })}
           >
             <span className="text-[9px] font-black tracking-[0.4em] uppercase">initialize_sectors</span>
             <ChevronDown size={20} />
@@ -137,28 +138,26 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
       </section>
 
       {/* SECTION 2: ACTIVE_DEPLOYMENTS (Grid-Snapped) */}
-      <section className="py-24 px-6 border-t border-white/5 bg-black/60 relative z-10">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 mb-12">
-            <Monitor size={18} className="text-sky-400" />
-            <span className="text-[11px] font-black uppercase tracking-[0.3em] text-sky-400">Project_Telemetry</span>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-0">
+      <section id="telemetry" className="py-0 border-t border-white/5 bg-black/60 relative z-10">
+        <div className="max-w-full mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
             <DeploymentNode 
               title="SolUrbana Grid" 
               desc="Comprehensive urban intelligence and utility comparison framework." 
               status="Live" 
+              onClick={() => setCurrentView('portfolio')}
             />
             <DeploymentNode 
               title="Field Engine" 
-              desc="Modular break-fix warranty repair HUD for Dell/Lenovo technicians." 
+              desc="Modular break-fix warranty repair HUD for technicians." 
               status="Alpha" 
+              onClick={() => setCurrentView('portfolio')}
             />
             <DeploymentNode 
               title="1028bc Protocol" 
-              desc="Neural-etched hardware assets and legacy node marketplace." 
+              desc="Neural-etched hardware assets and node marketplace." 
               status="Operational" 
+              onClick={() => setCurrentView('marketplace')}
             />
           </div>
         </div>
@@ -183,7 +182,7 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
           className={`p-4 brutalist-module flex items-center gap-3 font-black uppercase text-[10px] tracking-widest transition-all ${terminalOpen ? 'bg-white text-black' : 'bg-sky-500 text-black hover:bg-white'}`}
         >
           {terminalOpen ? <X size={16} /> : <Terminal size={16} />}
-          {terminalOpen ? 'Close_Session' : 'Terminal_Uplink'}
+          {terminalOpen ? 'Close_Terminal' : 'Terminal_Ingestor'}
         </button>
 
         <AnimatePresence>
@@ -192,13 +191,13 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-16 right-0 w-[400px] md:w-[500px] brutalist-module p-8 shadow-[0_30px_60px_rgba(0,0,0,0.8)] border-sky-500/50"
+              className="absolute bottom-16 right-0 w-[400px] md:w-[500px] bg-[#0d0d0d] border-2 border-sky-400/30 p-8 shadow-[0_30px_60px_rgba(0,0,0,0.8)]"
             >
               <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-4">
                 <Terminal size={14} className="text-sky-400" />
-                <span className="text-[10px] font-black text-sky-400 uppercase tracking-[0.3em]">Master_Ingestor_v2.0</span>
+                <span className="text-[10px] font-black text-sky-400 uppercase tracking-[0.3em]">Master_Ingestor_v2.7</span>
               </div>
-              <div className="space-y-12">
+              <div className="space-y-12 overflow-y-auto max-h-[60vh] pr-2 custom-scrollbar">
                 <IntelDashboard />
                 <MemorySearch />
               </div>
@@ -210,17 +209,19 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
   );
 };
 
-const DeploymentNode = ({ title, desc, status }: { title: string, desc: string, status: string }) => (
-  <div className="p-10 border border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-sky-500/30 transition-all cursor-pointer group">
+const DeploymentNode = ({ title, desc, status, onClick }: { title: string, desc: string, status: string, onClick: () => void }) => (
+  <div 
+    onClick={onClick}
+    className="p-12 border-r border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-sky-500/30 transition-all cursor-pointer group relative"
+  >
     <div className="flex items-center gap-2 mb-4">
-      <div className={`w-1.5 h-1.5 rounded-full ${status === 'Live' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-sky-500'}`} />
+      <div className={`w-1.5 h-1.5 rounded-none ${status === 'Live' ? 'bg-emerald-500' : 'bg-sky-500'}`} />
       <span className="text-[9px] font-black uppercase tracking-widest text-white/20 group-hover:text-white/40">{status}</span>
     </div>
-    <h3 className="text-3xl font-black italic text-white tracking-tighter mb-4 lowercase">{title}</h3>
-    <p className="text-white/40 text-sm leading-relaxed mb-8 font-medium">{desc}</p>
-    {/* Corrected the unexpected token character below */}
+    <h3 className="text-3xl font-black italic text-white tracking-tighter mb-4 lowercase leading-none">{title}</h3>
+    <p className="text-white/40 text-sm leading-relaxed mb-10 font-medium">{desc}</p>
     <div className="flex items-center gap-2 text-[10px] font-black text-white/10 group-hover:text-sky-400 transition-colors uppercase tracking-[0.2em]">
-      Initialize_Node_Access <ArrowRight size={12} className="transition-transform group-hover:translate-x-1" />
+      Initialize_Node_Access <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
     </div>
   </div>
 );

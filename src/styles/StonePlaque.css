@@ -7,6 +7,7 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.1);
   }
   
   /* The Option #17 Plaque Base */
@@ -22,6 +23,7 @@
       0 0 0 10px #0a0a0a; /* The Outer Chisel */
     padding: 4rem;
     text-align: center;
+    z-index: 10;
   }
   
   /* Texture Overlay */
@@ -45,21 +47,35 @@
   }
   
   .plaque-title {
-    font-family: 'serif'; /* Or high-end serif for the 'Official' feel */
-    font-size: 3.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: clamp(3rem, 8vw, 4.5rem);
     font-weight: 900;
     font-style: italic;
-    letter-spacing: -0.05em;
+    letter-spacing: -0.06em;
     color: #fff;
     text-transform: lowercase;
+    line-height: 0.9;
     margin-bottom: 1rem;
   }
   
   .plaque-subtitle {
-    font-family: 'monospace';
+    font-family: var(--font-mono);
     font-size: 0.75rem;
     font-weight: 900;
-    color: rgba(255, 255, 255, 0.3);
+    color: #38bdf8;
     text-transform: uppercase;
     letter-spacing: 0.5em;
+    margin-bottom: 2rem;
+    display: block;
+  }
+  
+  .plaque-desc {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1.8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    max-width: 600px;
+    margin: 0 auto;
   }
