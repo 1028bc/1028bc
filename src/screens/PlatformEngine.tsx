@@ -8,7 +8,7 @@ export const PlatformEngineScreen = () => {
 
   return (
     <div className="max-w-7xl mx-auto w-full pb-24">
-      <PageHeader titleTop="1028BC" titleBottom="FIELD OPS ENGINE" activePage="ENGINE_MASTER">
+      <PageHeader titleTop="1028bc" titleBottom="FIELD OPS ENGINE" activePage="ENGINE_MASTER">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-10 relative z-10">
           
           {/* LEFT COLUMN: CAPABILITIES */}
@@ -59,20 +59,20 @@ export const PlatformEngineScreen = () => {
               
               <div className="space-y-3">
                 <button 
-                  onClick={() => setBrand('1028BC')}
+                  onClick={() => setBrand('1028bc')}
                   className={`w-full py-3 px-4 border font-mono text-xs tracking-widest transition-all ${
-                    currentBrand.id === '1028BC' 
+                    currentBrand.id === '1028bc' 
                       ? 'bg-yellow text-charcoal border-yellow font-bold shadow-[0_0_15px_rgba(250,204,21,0.2)]' 
                       : 'bg-charcoal/50 text-offwhite/50 border-charcoal-light hover:border-yellow/50'
                   }`}
                 >
-                  [INIT] 1028BC MASTER
+                  [INIT] 1028bc MASTER
                 </button>
                 
                 <button 
-                  onClick={() => setBrand('TECH_GUY')}
+                  onClick={() => setBrand('tech_guy')}
                   className={`w-full py-3 px-4 border font-mono text-xs tracking-widest transition-all ${
-                    currentBrand.id === 'TECH_GUY' 
+                    currentBrand.id === 'tech_guy' 
                       ? 'bg-cyan-400 text-charcoal border-cyan-400 font-bold shadow-[0_0_15px_rgba(34,211,238,0.2)]' 
                       : 'bg-charcoal/50 text-offwhite/50 border-charcoal-light hover:border-cyan-400/50'
                   }`}
