@@ -1,0 +1,65 @@
+/* Stone Plaque Container */
+.stone-hero-container {
+    position: relative;
+    background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%);
+    padding: 8rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+  }
+  
+  /* The Option #17 Plaque Base */
+  .stone-plaque {
+    position: relative;
+    max-width: 900px;
+    width: 100%;
+    background: #111;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 
+      inset 0 1px 1px rgba(255, 255, 255, 0.1),
+      0 20px 50px rgba(0, 0, 0, 0.5),
+      0 0 0 10px #0a0a0a; /* The Outer Chisel */
+    padding: 4rem;
+    text-align: center;
+  }
+  
+  /* Texture Overlay */
+  .stone-plaque::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  
+  /* Glowing Circuit Accents (Option #4 Influence) */
+  .stone-plaque::after {
+    content: '';
+    position: absolute;
+    top: -2px; left: -2px; right: -2px; bottom: -2px;
+    background: linear-gradient(45deg, transparent, rgba(56, 189, 248, 0.1), transparent);
+    z-index: -1;
+    filter: blur(10px);
+  }
+  
+  .plaque-title {
+    font-family: 'serif'; /* Or high-end serif for the 'Official' feel */
+    font-size: 3.5rem;
+    font-weight: 900;
+    font-style: italic;
+    letter-spacing: -0.05em;
+    color: #fff;
+    text-transform: lowercase;
+    margin-bottom: 1rem;
+  }
+  
+  .plaque-subtitle {
+    font-family: 'monospace';
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 0.5em;
+  }
