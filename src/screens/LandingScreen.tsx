@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, User, Briefcase, ShoppingCart, Terminal, Shield, Activity, Zap, ChevronDown, Monitor, X } from 'lucide-react';
+import { ArrowRight, User, Briefcase, ShoppingCart, Terminal, Shield, Activity, Zap, ChevronDown, Monitor, X, Crosshair } from 'lucide-react';
 import { IntelDashboard } from '../components/IntelDashboard';
 import { MemorySearch } from '../components/MemorySearch';
 import '../styles/StonePlaque.css';
@@ -12,30 +12,9 @@ interface LandingScreenProps {
 }
 
 const HERO_DATA = [
-  {
-    id: 'profile',
-    view: 'profile' as AppView,
-    title: 'the architect',
-    subtitle: 'interactive resume, operational history, and active credentials.',
-    image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=85&w=2400',
-    icon: User
-  },
-  {
-    id: 'portfolio',
-    view: 'portfolio' as AppView,
-    title: 'active portfolio',
-    subtitle: 'case studies of solurbana interfaces and engineering deployments.',
-    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=85&w=2400',
-    icon: Briefcase
-  },
-  {
-    id: 'marketplace',
-    view: 'marketplace' as AppView,
-    title: 'the 1028bc shop',
-    subtitle: 'direct-to-consumer infrastructure for neural-etched hard goods.',
-    image: 'https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=85&w=2400',
-    icon: ShoppingCart
-  }
+  { id: 'profile', view: 'profile' as AppView, title: 'the architect', subtitle: 'interactive resume, operational history, and active credentials.', image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=85&w=2400', icon: User },
+  { id: 'portfolio', view: 'portfolio' as AppView, title: 'active portfolio', subtitle: 'case studies of solurbana interfaces and engineering deployments.', image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=85&w=2400', icon: Briefcase },
+  { id: 'marketplace', view: 'marketplace' as AppView, title: 'the 1028bc shop', subtitle: 'direct-to-consumer infrastructure for neural-etched hard goods.', image: 'https://images.unsplash.com/photo-1581092921461-eab62e97a780?q=85&w=2400', icon: ShoppingCart }
 ];
 
 const CinematicHero = ({ data, onClick, delay }: { data: typeof HERO_DATA[0], onClick: () => void, delay: number }) => {
@@ -94,68 +73,68 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
         .animate-pan { animation: pan 20s linear infinite alternate; will-change: transform; }
       `}</style>
 
-      {/* SECTION 1: THE #17 STONE HERO */}
-      <section className="stone-hero-container min-h-screen">
+      {/* SECTION 1: THE HIGH-IMPACT HERO */}
+      <section className="stone-hero-container">
+        
+        {/* HUD: CORNER COORDINATES (Fills the negative space) */}
+        <div className="absolute top-10 right-10 flex flex-col items-end font-mono text-[9px] text-white/20 tracking-[0.5em] uppercase z-0 pointer-events-none">
+          <span>Node_Loc: 36.0395° N, 114.9817° W</span>
+          <span>Henderson_Sector_01 // Master</span>
+          <div className="w-48 h-[1px] bg-sky-500/10 mt-2" />
+        </div>
+
         <motion.div 
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
           className="stone-plaque"
         >
           <span className="plaque-subtitle">Protocol // 1028bc_Master</span>
           <h1 className="plaque-title">1028bc</h1>
           <p className="plaque-desc">
-            Integrated architectural framework for <span className="text-white">infrastructure development</span>, 
+            Integrated technical framework for <span className="text-white">infrastructure development</span>, 
             <span className="text-white">urban intelligence</span>, and <span className="text-white">field operations</span>.
-            master control by lead architect brian kurtis campbell.
           </p>
 
-          <div className="mt-12 flex justify-center gap-10 opacity-30 group-hover:opacity-100 transition-opacity">
-            <div className="flex flex-col items-center gap-2">
-              <Shield size={18} className="text-sky-400" />
-              <span className="text-[8px] font-black uppercase tracking-widest text-white/40 font-mono">[Vault]</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <Activity size={18} className="text-sky-400" />
-              <span className="text-[8px] font-black uppercase tracking-widest text-white/40 font-mono">[Live]</span>
-            </div>
-            <div className="flex flex-col items-center gap-2">
-              <Zap size={18} className="text-sky-400" />
-              <span className="text-[8px] font-black uppercase tracking-widest text-white/40 font-mono">[Direct]</span>
-            </div>
+          <div className="mt-16 flex gap-16">
+             {['Vault', 'Live', 'Direct'].map((label) => (
+               <div key={label} className="flex flex-col gap-2 group cursor-crosshair">
+                 <div className="flex items-center gap-3">
+                   <div className="h-[1px] w-6 bg-sky-500/30 group-hover:w-12 transition-all" />
+                   <span className="text-[10px] font-black text-sky-400 font-mono uppercase tracking-[0.3em]">{label}</span>
+                 </div>
+                 <span className="text-[8px] text-white/10 pl-9 uppercase tracking-widest font-mono">Status: Synchronized</span>
+               </div>
+             ))}
           </div>
-          
-          <motion.div 
-            animate={{ y: [0, 10, 0] }} 
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="mt-12 text-white/20 flex flex-col items-center gap-2 cursor-pointer"
-            onClick={() => document.getElementById('telemetry')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            <span className="text-[9px] font-black tracking-[0.4em] uppercase">initialize_sectors</span>
-            <ChevronDown size={20} />
-          </motion.div>
         </motion.div>
+
+        {/* HUD: SCALE INDICATOR */}
+        <div className="absolute bottom-10 right-10 flex items-center gap-4 z-0 pointer-events-none">
+          <div className="flex flex-col items-end font-mono text-[8px] text-white/10 uppercase tracking-widest">
+            <span>Core_Clock: 2.4ghz</span>
+            <span>Uplink: Active</span>
+          </div>
+          <Crosshair size={40} className="text-white/5 rotate-45" />
+        </div>
       </section>
 
-      {/* SECTION 2: ACTIVE_DEPLOYMENTS (Grid-Snapped) */}
+      {/* SECTION 2: ACTIVE_DEPLOYMENTS */}
       <section id="telemetry" className="py-0 border-t border-white/5 bg-black/60 relative z-10">
         <div className="max-w-full mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
             <DeploymentNode 
               title="SolUrbana Grid" 
-              desc="Comprehensive urban intelligence and utility comparison framework." 
               status="Live" 
               onClick={() => setCurrentView('portfolio')}
             />
             <DeploymentNode 
               title="Field Engine" 
-              desc="Modular break-fix warranty repair HUD for technicians." 
               status="Alpha" 
               onClick={() => setCurrentView('portfolio')}
             />
             <DeploymentNode 
               title="1028bc Protocol" 
-              desc="Neural-etched hardware assets and node marketplace." 
               status="Operational" 
               onClick={() => setCurrentView('marketplace')}
             />
@@ -175,14 +154,14 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
         ))}
       </div>
 
-      {/* SECTION 4: DOCKED TERMINAL UTILITY (INGESTOR) */}
+      {/* SECTION 4: DOCKED TERMINAL UTILITY */}
       <div className="fixed bottom-8 right-8 z-[1000]">
         <button 
           onClick={() => setTerminalOpen(!terminalOpen)}
-          className={`p-4 brutalist-module flex items-center gap-3 font-black uppercase text-[10px] tracking-widest transition-all ${terminalOpen ? 'bg-white text-black' : 'bg-sky-500 text-black hover:bg-white'}`}
+          className={`p-5 brutalist-module flex items-center gap-3 font-black uppercase text-[10px] tracking-[0.4em] transition-all ${terminalOpen ? 'bg-white text-black' : 'bg-sky-500 text-black hover:bg-white shadow-[10px_10px_0px_rgba(0,0,0,1)]'}`}
         >
           {terminalOpen ? <X size={16} /> : <Terminal size={16} />}
-          {terminalOpen ? 'Close_Terminal' : 'Terminal_Ingestor'}
+          {terminalOpen ? 'Terminate_Uplink' : 'Initialize_Ingestor'}
         </button>
 
         <AnimatePresence>
@@ -191,7 +170,7 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-16 right-0 w-[400px] md:w-[500px] bg-[#0d0d0d] border-2 border-sky-400/30 p-8 shadow-[0_30px_60px_rgba(0,0,0,0.8)]"
+              className="absolute bottom-16 right-0 w-[400px] md:w-[600px] bg-[#0d0d0d] border-2 border-sky-400/30 p-8 shadow-[30px_60px_0px_rgba(0,0,0,1)]"
             >
               <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-4">
                 <Terminal size={14} className="text-sky-400" />
@@ -209,18 +188,17 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
   );
 };
 
-const DeploymentNode = ({ title, desc, status, onClick }: { title: string, desc: string, status: string, onClick: () => void }) => (
+const DeploymentNode = ({ title, status, onClick }: { title: string, status: string, onClick: () => void }) => (
   <div 
     onClick={onClick}
-    className="p-12 border-r border-white/5 bg-white/[0.01] hover:bg-white/[0.03] hover:border-sky-500/30 transition-all cursor-pointer group relative"
+    className="p-16 border-r border-white/5 bg-white/[0.01] hover:bg-sky-400/[0.04] hover:border-sky-500/40 transition-all cursor-pointer group relative"
   >
-    <div className="flex items-center gap-2 mb-4">
-      <div className={`w-1.5 h-1.5 rounded-none ${status === 'Live' ? 'bg-emerald-500' : 'bg-sky-500'}`} />
-      <span className="text-[9px] font-black uppercase tracking-widest text-white/20 group-hover:text-white/40">{status}</span>
+    <div className="flex items-center gap-2 mb-6">
+      <div className={`w-2 h-2 rounded-none ${status === 'Live' ? 'bg-emerald-500' : 'bg-sky-500'}`} />
+      <span className="text-[10px] font-black uppercase tracking-widest text-white/20 group-hover:text-white/60">{status}</span>
     </div>
-    <h3 className="text-3xl font-black italic text-white tracking-tighter mb-4 lowercase leading-none">{title}</h3>
-    <p className="text-white/40 text-sm leading-relaxed mb-10 font-medium">{desc}</p>
-    <div className="flex items-center gap-2 text-[10px] font-black text-white/10 group-hover:text-sky-400 transition-colors uppercase tracking-[0.2em]">
+    <h3 className="text-5xl font-black italic text-white tracking-tighter mb-8 lowercase leading-none group-hover:text-sky-400 transition-colors">{title}</h3>
+    <div className="flex items-center gap-2 text-[10px] font-black text-white/5 group-hover:text-white transition-all uppercase tracking-[0.3em]">
       Initialize_Node_Access <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
     </div>
   </div>

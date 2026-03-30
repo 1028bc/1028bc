@@ -1,81 +1,80 @@
-/* Stone Plaque Container */
+/* --- THE VIEWPORT CHASSIS --- */
 .stone-hero-container {
     position: relative;
-    background: radial-gradient(circle at 50% 50%, #1a1a1a 0%, #050505 100%);
-    padding: 8rem 2rem;
+    width: 100%;
+    height: calc(100vh - 60px); /* Account for header */
+    background: #030303;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: flex-start; 
+    align-items: flex-end;      
+    padding: 0;
     overflow: hidden;
-    border-bottom: 1px solid rgba(56, 189, 248, 0.1);
+    border-bottom: 2px solid rgba(56, 189, 248, 0.15);
   }
   
-  /* The Option #17 Plaque Base */
+  /* --- THE HEAVY SLAB --- */
   .stone-plaque {
     position: relative;
-    max-width: 900px;
+    z-index: 20;
     width: 100%;
-    background: #111;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 
-      inset 0 1px 1px rgba(255, 255, 255, 0.1),
-      0 20px 50px rgba(0, 0, 0, 0.5),
-      0 0 0 10px #0a0a0a; /* The Outer Chisel */
-    padding: 4rem;
-    text-align: center;
-    z-index: 10;
+    max-width: 1200px; 
+    background: #0a0a0a;
+    padding: 80px 60px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    border-right: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 20px -20px 0px rgba(0, 0, 0, 0.8);
+    text-align: left;
   }
   
-  /* Texture Overlay */
+  /* Texture Overlays */
   .stone-plaque::before {
     content: '';
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-image: url('https://www.transparenttextures.com/patterns/dark-matter.png');
-    opacity: 0.3;
+    inset: 0;
+    background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
+    opacity: 0.1;
     pointer-events: none;
   }
   
-  /* Glowing Circuit Accents (Option #4 Influence) */
+  /* The Blue "Active" Trace */
   .stone-plaque::after {
     content: '';
     position: absolute;
-    top: -2px; left: -2px; right: -2px; bottom: -2px;
-    background: linear-gradient(45deg, transparent, rgba(56, 189, 248, 0.1), transparent);
-    z-index: -1;
-    filter: blur(10px);
+    top: 0; left: 0; width: 4px; height: 100%;
+    background: #38bdf8;
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.4);
   }
   
   .plaque-title {
-    font-family: 'Inter', sans-serif;
-    font-size: clamp(3rem, 8vw, 4.5rem);
+    font-family: var(--font-mono);
+    font-size: clamp(5rem, 18vw, 14rem); /* AGGRESSIVE SCALE */
     font-weight: 900;
     font-style: italic;
-    letter-spacing: -0.06em;
+    letter-spacing: -0.08em;
     color: #fff;
+    line-height: 0.75;
     text-transform: lowercase;
-    line-height: 0.9;
-    margin-bottom: 1rem;
+    margin-bottom: 30px;
+    filter: drop-shadow(10px 10px 0px rgba(0,0,0,0.5));
   }
   
   .plaque-subtitle {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 11px;
     font-weight: 900;
     color: #38bdf8;
     text-transform: uppercase;
-    letter-spacing: 0.5em;
-    margin-bottom: 2rem;
+    letter-spacing: 0.8em;
+    margin-bottom: 20px;
     display: block;
   }
   
   .plaque-desc {
     font-family: var(--font-mono);
-    font-size: 13px;
-    color: rgba(255, 255, 255, 0.4);
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.3);
     line-height: 1.8;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    max-width: 600px;
-    margin: 0 auto;
+    letter-spacing: 0.2em;
+    max-width: 700px;
   }
