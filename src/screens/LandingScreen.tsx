@@ -73,26 +73,26 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
         .animate-pan { animation: pan 20s linear infinite alternate; will-change: transform; }
       `}</style>
 
-      {/* SECTION 1: THE HIGH-IMPACT HERO */}
+      {/* SECTION 1: THE HIGH-IMPACT HUD HERO */}
       <section className="stone-hero-container">
         
-        {/* HUD: CORNER COORDINATES (Fills the negative space) */}
-        <div className="absolute top-10 right-10 flex flex-col items-end font-mono text-[9px] text-white/20 tracking-[0.5em] uppercase z-0 pointer-events-none">
-          <span>Node_Loc: 36.0395° N, 114.9817° W</span>
-          <span>Henderson_Sector_01 // Master</span>
+        {/* HUD OVERLAYS: Filling the Dead Space */}
+        <div className="absolute top-10 right-10 flex flex-col items-end font-mono text-[9px] text-white/20 tracking-[0.5em] uppercase z-0">
+          <span>Uplink: Synchronized // Master_Core</span>
+          <span>Node_Coord: 36.0395° N, 114.9817° W</span>
           <div className="w-48 h-[1px] bg-sky-500/10 mt-2" />
         </div>
 
         <motion.div 
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 1 }}
           className="stone-plaque"
         >
           <span className="plaque-subtitle">Protocol // 1028bc_Master</span>
           <h1 className="plaque-title">1028bc</h1>
           <p className="plaque-desc">
-            Integrated technical framework for <span className="text-white">infrastructure development</span>, 
+            Technical framework for <span className="text-white">infrastructure development</span>, 
             <span className="text-white">urban intelligence</span>, and <span className="text-white">field operations</span>.
           </p>
 
@@ -103,41 +103,29 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
                    <div className="h-[1px] w-6 bg-sky-500/30 group-hover:w-12 transition-all" />
                    <span className="text-[10px] font-black text-sky-400 font-mono uppercase tracking-[0.3em]">{label}</span>
                  </div>
-                 <span className="text-[8px] text-white/10 pl-9 uppercase tracking-widest font-mono">Status: Synchronized</span>
+                 <span className="text-[8px] text-white/5 pl-9 uppercase tracking-widest font-mono">Status: Optimal</span>
                </div>
              ))}
           </div>
         </motion.div>
 
-        {/* HUD: SCALE INDICATOR */}
-        <div className="absolute bottom-10 right-10 flex items-center gap-4 z-0 pointer-events-none">
-          <div className="flex flex-col items-end font-mono text-[8px] text-white/10 uppercase tracking-widest">
-            <span>Core_Clock: 2.4ghz</span>
-            <span>Uplink: Active</span>
+        {/* HUD: SCALE DECOR */}
+        <div className="absolute bottom-10 right-10 flex items-center gap-4 z-0 opacity-10">
+          <Crosshair size={60} className="text-white rotate-45" />
+          <div className="flex flex-col items-end font-mono text-[8px] text-white uppercase tracking-widest">
+            <span>Scan_Rate: 2.4ghz</span>
+            <span>Logic: Active</span>
           </div>
-          <Crosshair size={40} className="text-white/5 rotate-45" />
         </div>
       </section>
 
-      {/* SECTION 2: ACTIVE_DEPLOYMENTS */}
+      {/* SECTION 2: TELEMETRY (IMMEDIATE PORTFOLIO) */}
       <section id="telemetry" className="py-0 border-t border-white/5 bg-black/60 relative z-10">
         <div className="max-w-full mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-0">
-            <DeploymentNode 
-              title="SolUrbana Grid" 
-              status="Live" 
-              onClick={() => setCurrentView('portfolio')}
-            />
-            <DeploymentNode 
-              title="Field Engine" 
-              status="Alpha" 
-              onClick={() => setCurrentView('portfolio')}
-            />
-            <DeploymentNode 
-              title="1028bc Protocol" 
-              status="Operational" 
-              onClick={() => setCurrentView('marketplace')}
-            />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-0 border-b border-white/5">
+            <DeploymentNode title="SolUrbana Grid" status="Live" onClick={() => setCurrentView('portfolio')} />
+            <DeploymentNode title="Field Engine" status="Alpha" onClick={() => setCurrentView('portfolio')} />
+            <DeploymentNode title="1028bc Protocol" status="Operational" onClick={() => setCurrentView('marketplace')} />
           </div>
         </div>
       </section>
@@ -145,12 +133,7 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
       {/* SECTION 3: SECTOR GATEWAYS */}
       <div className="flex flex-col relative z-10">
         {HERO_DATA.map((hero, index) => (
-          <CinematicHero
-            key={hero.id}
-            data={hero}
-            delay={index * 0.1}
-            onClick={() => setCurrentView(hero.view)}
-          />
+          <CinematicHero key={hero.id} data={hero} delay={index * 0.1} onClick={() => setCurrentView(hero.view)} />
         ))}
       </div>
 
@@ -158,10 +141,9 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
       <div className="fixed bottom-8 right-8 z-[1000]">
         <button 
           onClick={() => setTerminalOpen(!terminalOpen)}
-          className={`p-5 brutalist-module flex items-center gap-3 font-black uppercase text-[10px] tracking-[0.4em] transition-all ${terminalOpen ? 'bg-white text-black' : 'bg-sky-500 text-black hover:bg-white shadow-[10px_10px_0px_rgba(0,0,0,1)]'}`}
+          className={`px-8 py-5 border-2 font-black uppercase text-[10px] tracking-[0.4em] transition-all shadow-[10px_10px_0px_rgba(0,0,0,1)] ${terminalOpen ? 'bg-white text-black border-white' : 'bg-[#030303] text-sky-400 border-sky-400/50 hover:bg-sky-400 hover:text-black'}`}
         >
-          {terminalOpen ? <X size={16} /> : <Terminal size={16} />}
-          {terminalOpen ? 'Terminate_Uplink' : 'Initialize_Ingestor'}
+          {terminalOpen ? '[ Terminate_Uplink ]' : '[ Initialize_Ingestor ]'}
         </button>
 
         <AnimatePresence>
@@ -170,12 +152,8 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
               initial={{ opacity: 0, y: 20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 20, scale: 0.95 }}
-              className="absolute bottom-16 right-0 w-[400px] md:w-[600px] bg-[#0d0d0d] border-2 border-sky-400/30 p-8 shadow-[30px_60px_0px_rgba(0,0,0,1)]"
+              className="absolute bottom-24 right-0 w-[500px] md:w-[600px] bg-[#0d0d0d] border-2 border-sky-400/30 p-8 shadow-[30px_60px_rgba(0,0,0,0.8)]"
             >
-              <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-4">
-                <Terminal size={14} className="text-sky-400" />
-                <span className="text-[10px] font-black text-sky-400 uppercase tracking-[0.3em]">Master_Ingestor_v2.7</span>
-              </div>
               <div className="space-y-12 overflow-y-auto max-h-[60vh] pr-2 custom-scrollbar">
                 <IntelDashboard />
                 <MemorySearch />
@@ -189,17 +167,14 @@ export const LandingScreen = ({ setCurrentView }: LandingScreenProps) => {
 };
 
 const DeploymentNode = ({ title, status, onClick }: { title: string, status: string, onClick: () => void }) => (
-  <div 
-    onClick={onClick}
-    className="p-16 border-r border-white/5 bg-white/[0.01] hover:bg-sky-400/[0.04] hover:border-sky-500/40 transition-all cursor-pointer group relative"
-  >
+  <div onClick={onClick} className="p-20 border-r border-white/5 bg-white/[0.01] hover:bg-sky-400/[0.03] hover:border-sky-500/40 transition-all cursor-pointer group relative">
     <div className="flex items-center gap-2 mb-6">
       <div className={`w-2 h-2 rounded-none ${status === 'Live' ? 'bg-emerald-500' : 'bg-sky-500'}`} />
       <span className="text-[10px] font-black uppercase tracking-widest text-white/20 group-hover:text-white/60">{status}</span>
     </div>
-    <h3 className="text-5xl font-black italic text-white tracking-tighter mb-8 lowercase leading-none group-hover:text-sky-400 transition-colors">{title}</h3>
-    <div className="flex items-center gap-2 text-[10px] font-black text-white/5 group-hover:text-white transition-all uppercase tracking-[0.3em]">
-      Initialize_Node_Access <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+    <h3 className="text-6xl font-black italic text-white tracking-tighter mb-8 lowercase leading-none group-hover:text-sky-400 transition-colors">{title}</h3>
+    <div className="flex items-center gap-2 text-[10px] font-black text-white/5 group-hover:text-white transition-all uppercase tracking-[0.4em]">
+      Access_Node <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
     </div>
   </div>
 );
